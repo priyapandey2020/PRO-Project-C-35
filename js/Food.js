@@ -39,15 +39,5 @@ class Food {
           x=x+30;
         }
       }
-     
-      fill(255,255,254);
-      textSize(15);
-      if(this.lastFed>=12){ 
-        text("Last Feed : "+ this.lastFed%12 + " PM", 350,30);
-      }else if(this.lastFed==0){
-        text("Last Feed : 12 AM",350,30);
-      }else{
-        text("Last Feed : "+ this.lastFed + " AM", 350,30);
-      }
     }
 }

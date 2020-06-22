@@ -1,6 +1,6 @@
 var dog,sadDog,happyDog, database;
 var foodS,foodStock;
-var lastTimFed,lastFed;
+var fedTime,lastFed;
 var feed,addFood;
 var foodObj;
 
@@ -17,9 +17,6 @@ function setup() {
 
   foodStock=database.ref('Food');
   foodStock.on("value",readStock);
-
-  lastTimFed=database.ref('FeedTime');
-  lastTimFed.on("value",fetchTime);
   
   dog=createSprite(800,200,150,150);
   dog.addImage(sadDog);
@@ -39,6 +36,21 @@ function draw() {
   background(46,139,87);
   foodObj.display();
 
+  fedTime=database.ref('FeedTime');
+  fedTime.on("value",function(data){
+    lastFed=data.val();
+  });
+ 
+  fill(255,255,254);
+  textSize(15);
+  if(lastFed>=12){
+    text("Last Feed : "+ lastFed%12 + " PM", 350,30);
+   }else if(lastFed==0){
+     text("Last Feed : 12 AM",350,30);
+   }else{
+     text("Last Feed : "+ lastFed + " AM", 350,30);
+   }
+ 
   drawSprites();
 }
 
@@ -48,11 +60,6 @@ function readStock(data){
   foodObj.updateFoodStock(foodS);
 }
 
-//function to read last fed time
-function fetchTime(data){
-  lastFed=data.val();
-  foodObj.getFedTime(lastFed);
-}
 
 //function to update food stock and last fed time
 function feedDog(){
